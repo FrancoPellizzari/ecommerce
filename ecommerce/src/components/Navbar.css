@@ -1,0 +1,68 @@
+
+.navbar {
+  background-color: #007bff;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-form input {
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .search-form button {
+    background-color: #fff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  /* Estilos generales de la página para el tema claro */
+.light-theme {
+  background-color: #007bff;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Estilos generales de la página para el tema oscuro */
+.dark-theme {
+  background-color: #333333; /* Fondo oscuro u otros estilos específicos para el tema oscuro */
+  color: #ffffff; /* Texto blanco u otros estilos específicos para el tema oscuro */
+}
+
+/* Estilos adicionales para el botón de cambiar tema */
+.dark-theme button {
+  background-color: #ffffff; /* Fondo blanco u otros estilos específicos para el botón en el tema oscuro */
+  color: #000000; /* Texto negro u otros estilos específicos para el botón en el tema oscuro */
+}
+
+/* Puedes agregar más estilos según sea necesario */
