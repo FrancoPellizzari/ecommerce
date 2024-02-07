@@ -5,6 +5,7 @@ import Carrito from './components/Cart';
 import data from './data.json'; 
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
+import LoginForm from './components/LoginForm';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,6 +38,11 @@ const App = () => {
     setCurrentView('cart');
   };
 
+  const switchToLoginView = () => {
+    console.log('Cambiando a vista de inicio de sesión');
+    setCurrentView('login');
+  };
+
   return (
     <ThemeProvider>
       <CartProvider>
@@ -45,15 +51,22 @@ const App = () => {
             onSearchSubmit={filterProducts}
             switchToProductsView={switchToProductsView}
             switchToCartView={switchToCartView}
+            switchToLoginView={switchToLoginView}
           />
           <div className="product-list">
             {currentView === 'products' &&
               filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} addToCart={addToCart} />
               ))}
+            
             {currentView === 'cart' && <Carrito cartItems={cartItems} />}
+            {currentView === 'login' && <LoginForm />}
+            
+            
           </div>
+          
         </div>
+        
       </CartProvider>
     </ThemeProvider>
   );

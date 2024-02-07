@@ -5,7 +5,7 @@ import { ThemeContext } from '../context/ThemeContext';
 
 
 
-const Navbar = ({ onSearchSubmit, switchToCartView }) => {
+const Navbar = ({ onSearchSubmit, switchToCartView, switchToLoginView }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event) => {
@@ -39,6 +39,7 @@ return (
       <li><a href="/">Inicio</a></li>
       <li><a href="/productos">Productos</a></li>
       <li><button onClick={switchToCartView}>Carrito</button></li>
+      <button onClick={switchToLoginView}>Iniciar Sesión</button>
       <button onClick={toggleTheme}>Cambiar Tema</button>
     </ul>
   </nav>
@@ -48,7 +49,8 @@ return (
 
 Navbar.propTypes = {
   onSearchSubmit: PropTypes.func.isRequired,
-  
+  switchToCartView: PropTypes.func.isRequired,
+  switchToLoginView: PropTypes.func.isRequired
 };
 
 export default Navbar;

@@ -6,6 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   }
   
   .logo {
@@ -43,7 +44,7 @@
     cursor: pointer;
   }
   
-  /* Estilos generales de la página para el tema claro */
+  
 .light-theme {
   background-color: #007bff;
   color: #fff;
@@ -53,16 +54,16 @@
   align-items: center;
 }
 
-/* Estilos generales de la página para el tema oscuro */
+
 .dark-theme {
-  background-color: #333333; /* Fondo oscuro u otros estilos específicos para el tema oscuro */
-  color: #ffffff; /* Texto blanco u otros estilos específicos para el tema oscuro */
+  background-color: #333333;
+  color: #ffffff; 
 }
 
-/* Estilos adicionales para el botón de cambiar tema */
+
 .dark-theme button {
-  background-color: #ffffff; /* Fondo blanco u otros estilos específicos para el botón en el tema oscuro */
-  color: #000000; /* Texto negro u otros estilos específicos para el botón en el tema oscuro */
+  background-color: #ffffff; 
+  color: #000000; 
 }
 
-/* Puedes agregar más estilos según sea necesario */
+

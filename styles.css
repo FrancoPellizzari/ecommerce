@@ -14,3 +14,27 @@ body {
     text-align: center;
     font-size: 3rem;
   }
+
+  .light-theme {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  .dark-theme {
+    background-color: #333333; /* Fondo oscuro u otros estilos específicos para el tema oscuro */
+    color: #ffffff; /* Texto blanco u otros estilos específicos para el tema oscuro */
+  }
+  
+  
+  .dark-theme button {
+    background-color: #ffffff; /* Fondo blanco u otros estilos específicos para el botón en el tema oscuro */
+    color: #000000; /* Texto negro u otros estilos específicos para el botón en el tema oscuro */
+  }
+  
+  
+  

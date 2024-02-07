@@ -1,5 +1,6 @@
 .product-card {
-    max-width: 300px; 
+    max-width: 200px; 
+    height: auto;
     margin: 16px;
     padding: 16px;
     border: 1px solid #ddd;
@@ -59,13 +60,13 @@
   }
   
   .dark-card .product-card {
-    background-color: #333333; /* Fondo oscuro para el tema oscuro */
-    color: #ffffff; /* Texto blanco para el tema oscuro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    background-color: #333333; 
+    color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   }
   
   .dark-card .product-image {
-    border: 2px solid #ffffff; /* Bordes blancos para la imagen */
+    border: 2px solid #ffffff; 
   }
   
   .dark-card .product-title,
@@ -73,6 +74,6 @@
   .dark-card .product-price,
   .dark-card .product-category,
   .dark-card .product-rating p {
-    color: #ffffff; /* Texto blanco para todos los elementos de texto */
+    color: #ffffff; 
   }
   

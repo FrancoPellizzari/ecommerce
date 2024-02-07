@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
-import './Cart.css'; // Estilo CSS para la tarjeta del producto en el carrito
+import './Cart.css'; 
 
 const Carrito = () => {
   const { cart } = useContext(CartContext);
@@ -14,10 +14,10 @@ const Carrito = () => {
     );
   }
 
-  // Crear un objeto para acumular las cantidades de cada producto
+  
   const productQuantities = {};
 
-  // Iterar sobre el carrito y acumular cantidades
+  
   cart.forEach((item) => {
     if (productQuantities[item.id]) {
       productQuantities[item.id].quantity += item.quantity;
