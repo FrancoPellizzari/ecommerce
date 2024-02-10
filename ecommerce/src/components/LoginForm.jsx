@@ -1,43 +1,63 @@
-import { useState } from "react";
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin, onLogout }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [isLoggedIn, setLoggedIn] = useState(!!localStorage.getItem('userData'));
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoggedIn, setLoggedIn] = useState(false);
+  useEffect(() => {
+    console.log('Name:', name);
+    console.log('Email:', email);
+    console.log('IsLoggedIn:', isLoggedIn);
+  }, [name, email, isLoggedIn]);
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+  const handleLogin = (e) => {
+    e.preventDefault();
+  
+    
+  
+  
+  
+    const userData = { name, email };
+    localStorage.setItem('userData', JSON.stringify(userData));
+    onLogin(userData);
+  
+   
+    
+  };
+  
+  const handleLogout = () => {
+   
+    localStorage.removeItem('userData');
+  
+    onLogout();
+  
+    setLoggedIn(false);
+  };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleLogin = () => {
-        if (email && password){
-            setLoggedIn(true);
-        }
-    };
-
-    return(
-        <div>
-      <h2>Iniciar Sesión</h2>
-      <label>
-        Correo Electrónico:
-        <input type="email" value={email} onChange={handleEmailChange} />
-      </label>
-      <label>
-        Contraseña:
-        <input type="password" value={password} onChange={handlePasswordChange} />
-      </label>
-      <button onClick={handleLogin}>Iniciar Sesión</button>
-      {isLoggedIn && <p>¡Inicio de sesión exitoso!</p>}
+  return (
+    <div>
+      <form onSubmit={handleLogin}> 
+        <label>
+          Nombre:
+          <input id='nombre' type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          
+        </label>
+        <label>
+          Correo:
+          <input id='correo' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+      <button onClick={handleLogout}>Logout</button>
     </div>
-        );
+  );
+};
 
-
+LoginForm.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

@@ -21,7 +21,6 @@ const Navbar = ({ onSearchSubmit, switchToCartView, switchToLoginView }) => {
   const {theme, toggleTheme } = useContext(ThemeContext);
   
 
-  // En navbar.jsx
 return (
   <nav className={`navbar ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
     <div className="logo">Mi Tienda React</div>
@@ -39,7 +38,7 @@ return (
       <li><a href="/">Inicio</a></li>
       <li><a href="/productos">Productos</a></li>
       <li><button onClick={switchToCartView}>Carrito</button></li>
-      <button onClick={switchToLoginView}>Iniciar Sesión</button>
+      
       <button onClick={toggleTheme}>Cambiar Tema</button>
     </ul>
   </nav>

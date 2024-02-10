@@ -7,11 +7,15 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import LoginForm from './components/LoginForm';
 
+
+
 const App = () => {
+
+  console.log('App is rendered'); // Agrega este log
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(data);
   const [cartItems, setCartItems] = useState([]);
-  const [currentView, setCurrentView] = useState('products'); // Nuevo estado para controlar la vista
+  const [currentView, setCurrentView] = useState('products'); 
 
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -39,34 +43,41 @@ const App = () => {
   };
 
   const switchToLoginView = () => {
-    console.log('Cambiando a vista de inicio de sesión');
-    setCurrentView('login');
+    switchToLoginView('login');
   };
 
+  
+
+  
   return (
     <ThemeProvider>
       <CartProvider>
         <div>
           <Navbar
-            onSearchSubmit={filterProducts}
+            onSearchSubmit={handleSearchChange}
             switchToProductsView={switchToProductsView}
             switchToCartView={switchToCartView}
-            switchToLoginView={switchToLoginView}
+            switchToLoginView={switchToLoginView} 
           />
           <div className="product-list">
             {currentView === 'products' &&
               filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} addToCart={addToCart} />
               ))}
-            
+
             {currentView === 'cart' && <Carrito cartItems={cartItems} />}
-            {currentView === 'login' && <LoginForm />}
-            
-            
+
+            <LoginForm
+              onLogin={(userData) => {
+                localStorage.setItem('userData', JSON.stringify(userData));
+              }}
+              onLogout={() => {
+                localStorage.removeItem('userData');
+                // ... Puedes realizar otras acciones necesarias al hacer logout
+              }}
+            />
           </div>
-          
         </div>
-        
       </CartProvider>
     </ThemeProvider>
   );
