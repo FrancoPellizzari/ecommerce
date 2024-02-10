@@ -30,6 +30,8 @@ const App = () => {
     setFilteredProducts(filtered);
   };
 
+  
+
   const addToCart = (item) => {
     setCartItems([...cartItems, item]);
   };
@@ -54,7 +56,7 @@ const App = () => {
       <CartProvider>
         <div>
           <Navbar
-            onSearchSubmit={handleSearchChange}
+            onSearchSubmit={filterProducts}
             switchToProductsView={switchToProductsView}
             switchToCartView={switchToCartView}
             switchToLoginView={switchToLoginView} 
