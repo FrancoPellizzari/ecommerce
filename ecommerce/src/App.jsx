@@ -6,8 +6,9 @@ import data from './data.json';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import LoginForm from './components/LoginForm';
+import { AuthProvider } from './context/AuthContext';
 
-
+import Banner from './components/Banner';
 
 const App = () => {
 
@@ -54,6 +55,7 @@ const App = () => {
   return (
     <ThemeProvider>
       <CartProvider>
+      <AuthProvider>
         <div>
           <Navbar
             onSearchSubmit={filterProducts}
@@ -61,6 +63,7 @@ const App = () => {
             switchToCartView={switchToCartView}
             switchToLoginView={switchToLoginView} 
           />
+           <Banner />
           <div className="product-list">
             {currentView === 'products' &&
               filteredProducts.map((product) => (
@@ -75,11 +78,12 @@ const App = () => {
               }}
               onLogout={() => {
                 localStorage.removeItem('userData');
-                // ... Puedes realizar otras acciones necesarias al hacer logout
+                
               }}
             />
           </div>
         </div>
+        </AuthProvider>
       </CartProvider>
     </ThemeProvider>
   );

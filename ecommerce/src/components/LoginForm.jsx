@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useAuth } from '../context/AuthContext';
 
 const LoginForm = ({ onLogin, onLogout }) => {
   const [name, setName] = useState('');
