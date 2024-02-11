@@ -46,7 +46,7 @@ const App = () => {
   };
 
   const switchToLoginView = () => {
-    switchToLoginView('login');
+    setCurrentView('login'); // Cambia 'login' según sea necesario
   };
 
   
