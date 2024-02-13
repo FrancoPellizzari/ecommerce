@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProductSection from './components/ProductSection';
 
 import Banner from './components/Banner';
+import Layout from './views/layout';
 
 const App = () => {
 
@@ -56,6 +57,7 @@ const App = () => {
   
   return (
     <BrowserRouter>
+    <Layout>
     <ThemeProvider>
       <CartProvider>
       <AuthProvider>
@@ -85,6 +87,7 @@ const App = () => {
         </AuthProvider>
       </CartProvider>
     </ThemeProvider>
+    </Layout>
     </BrowserRouter>
   );
 };
