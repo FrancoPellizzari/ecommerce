@@ -50,8 +50,8 @@ const LoginForm = () => {
 };
 
 LoginForm.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
+  onLogin: PropTypes.func,
+  onLogout: PropTypes.func,
 };
 
 export default LoginForm;

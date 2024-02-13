@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import './Navbar.css';
 import { ThemeContext } from '../context/ThemeContext';
-
+import { NavLink } from 'react-router-dom';
 
 
 const Navbar = ({ onSearchSubmit, switchToCartView, switchToLoginView }) => {
@@ -35,9 +35,9 @@ return (
       <button type="submit">Buscar</button>
     </form>
     <ul className="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/productos">Productos</a></li>
-      <li><button onClick={switchToCartView}>Carrito</button></li>
+      <li><NavLink to="/">Inicio</NavLink></li>
+      <li><NavLink to="/productos">Productos</NavLink></li>
+      <li><NavLink to="/cart">Carrito</NavLink></li>
       
       <button onClick={toggleTheme}>Cambiar Tema</button>
     </ul>

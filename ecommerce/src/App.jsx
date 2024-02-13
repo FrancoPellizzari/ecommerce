@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar';
 import ProductCard from './components/ProductCard';
 import Carrito from './components/Cart';
@@ -7,6 +8,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import LoginForm from './components/LoginForm';
 import { AuthProvider } from './context/AuthContext';
+import ProductSection from './components/ProductSection';
 
 import Banner from './components/Banner';
 
@@ -53,6 +55,7 @@ const App = () => {
 
   
   return (
+    <BrowserRouter>
     <ThemeProvider>
       <CartProvider>
       <AuthProvider>
@@ -65,27 +68,24 @@ const App = () => {
           />
            <Banner />
           <div className="product-list">
-            {currentView === 'products' &&
-              filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} addToCart={addToCart} />
-              ))}
-
-            {currentView === 'cart' && <Carrito cartItems={cartItems} />}
-
-            <LoginForm
-              onLogin={(userData) => {
-                localStorage.setItem('userData', JSON.stringify(userData));
-              }}
-              onLogout={() => {
-                localStorage.removeItem('userData');
-                
-              }}
-            />
+          <Routes>
+    <Route
+      path="/"
+      element={
+        currentView === 'products' && (
+          <ProductSection filteredProducts={filteredProducts} addToCart={addToCart} />
+        )
+      }
+    />
+    <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
+    <Route path="/login" element={<LoginForm />} />
+  </Routes>
           </div>
         </div>
         </AuthProvider>
       </CartProvider>
     </ThemeProvider>
+    </BrowserRouter>
   );
 };
 
