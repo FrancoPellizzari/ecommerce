@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar';
-import ProductCard from './components/ProductCard';
+import Navbar from './components/Navbar';
 import Carrito from './components/Cart';
-import data from './data.json'; 
+import data from './data.json';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import LoginForm from './components/LoginForm';
 import { AuthProvider } from './context/AuthContext';
 import ProductSection from './components/ProductSection';
-
 import Banner from './components/Banner';
 import Layout from './views/layout';
 
 const App = () => {
-
-  console.log('App is rendered'); // Agrega este log
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(data);
   const [cartItems, setCartItems] = useState([]);
-  const [currentView, setCurrentView] = useState('products'); 
+  const [currentView, setCurrentView] = useState('products');
 
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -34,8 +30,6 @@ const App = () => {
     setFilteredProducts(filtered);
   };
 
-  
-
   const addToCart = (item) => {
     setCartItems([...cartItems, item]);
   };
@@ -49,45 +43,43 @@ const App = () => {
   };
 
   const switchToLoginView = () => {
-    setCurrentView('login'); // Cambia 'login' según sea necesario
+    setCurrentView('login');
   };
 
-  
-
-  
   return (
     <BrowserRouter>
-    <Layout>
     <ThemeProvider>
-      <CartProvider>
-      <AuthProvider>
-        <div>
-          <Navbar
-            onSearchSubmit={filterProducts}
-            switchToProductsView={switchToProductsView}
-            switchToCartView={switchToCartView}
-            switchToLoginView={switchToLoginView} 
-          />
-           <Banner />
-          <div className="product-list">
-          <Routes>
-    <Route
-      path="/"
-      element={
-        currentView === 'products' && (
-          <ProductSection filteredProducts={filteredProducts} addToCart={addToCart} />
-        )
-      }
-    />
-    <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
-    <Route path="/login" element={<LoginForm />} />
-  </Routes>
-          </div>
-        </div>
-        </AuthProvider>
-      </CartProvider>
-    </ThemeProvider>
-    </Layout>
+      <Layout
+        filterProducts={filterProducts}
+        switchToCartView={switchToCartView}
+        switchToLoginView={switchToLoginView}
+      >
+        <ThemeProvider>
+          <CartProvider>
+            <AuthProvider>
+              <div>
+                
+                <Banner />
+                <div className="product-list">
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        currentView === 'products' && (
+                          <ProductSection filteredProducts={filteredProducts} addToCart={addToCart} />
+                        )
+                      }
+                    />
+                    <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
+                    <Route path="/login" element={<LoginForm />} />
+                  </Routes>
+                </div>
+              </div>
+            </AuthProvider>
+          </CartProvider>
+        </ThemeProvider>
+      </Layout>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };

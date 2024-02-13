@@ -6,7 +6,10 @@ import { NavLink } from 'react-router-dom';
 
 
 const Navbar = ({ onSearchSubmit, switchToCartView, switchToLoginView }) => {
+  console.log('ThemeContext:', ThemeContext);
+
   const [searchTerm, setSearchTerm] = useState('');
+  const {theme, toggleTheme } = useContext(ThemeContext);
 
   const handleSearchChange = (event) => {
     const newSearchTerm = event.target.value;
@@ -18,7 +21,7 @@ const Navbar = ({ onSearchSubmit, switchToCartView, switchToLoginView }) => {
     onSearchSubmit(searchTerm);
   };
 
-  const {theme, toggleTheme } = useContext(ThemeContext);
+ 
   
 
 return (

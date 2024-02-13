@@ -1,21 +1,27 @@
 import React from "react";
-import Navbar from "../components/navbar";
-import PropTypes from 'prop-types';
+import Navbar from "../components/Navbar";
+import PropTypes from "prop-types";
 import Footer from "../components/Footer";
 
-const Layout = ({ children }) => {
-    return (
-        <div className = "layout">
-            <navbar/>
-            <div className = "content"> {children}</div>
-            <Footer/>
-        </div>
-    );
+const Layout = ({ children, filterProducts, switchToCartView, switchToLoginView }) => {
+  return (
+    <div>
+      <Navbar
+        onSearchSubmit={filterProducts}
+        switchToCartView={switchToCartView}
+        switchToLoginView={switchToLoginView}
+      />
+      {children}
+      <Footer />
+    </div>
+  );
 };
 
 Layout.propTypes = {
-    children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
+  filterProducts: PropTypes.func.isRequired,
+  switchToCartView: PropTypes.func.isRequired,
+  switchToLoginView: PropTypes.func.isRequired,
 };
-
 
 export default Layout;
