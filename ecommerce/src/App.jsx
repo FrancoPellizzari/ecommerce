@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProductSection from './components/ProductSection';
 import Banner from './components/Banner';
 import Layout from './views/layout';
+import ProductDetails from './components/ProductDetails';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -72,6 +73,15 @@ const App = () => {
                     />
                     <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
                     <Route path="/login" element={<LoginForm />} />
+                    <Route
+                    path="/product/:id"
+                    element={
+                      <ProductDetails
+                        products={filteredProducts} // Podrías pasar todos los productos o ajustar según tu lógica
+                        addToCart={addToCart}
+                      />
+                    }
+                  />
                   </Routes>
                 </div>
               </div>

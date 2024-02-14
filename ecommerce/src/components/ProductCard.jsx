@@ -3,6 +3,7 @@ import './ProductCard.css';
 import PropTypes from 'prop-types';
 import { ThemeContext } from '../context/ThemeContext';
 import { CartContext } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const { id, title, price, description, category, image, rating } = product;
@@ -26,6 +27,7 @@ const ProductCard = ({ product }) => {
         <div className="product-rating">
           <p>Rating: {rating.rate} ({rating.count} reviews)</p>
         </div>
+        <Link to={`/product/${product.id}`}>Ver Detalles</Link>
         <button onClick={handleAddToCart}>Agregar al Carrito</button>
       </div>
     </div>
