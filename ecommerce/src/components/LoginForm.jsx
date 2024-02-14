@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../context/AuthContext';
 
-const LoginForm = () => {
+const LoginForm = ({onLogin}) => {
   const { login, logout } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,6 +13,14 @@ const LoginForm = () => {
     setLoggedIn(!!localStorage.getItem('userData'));
   }, []);
 
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+
+  //   const userData = { name, email };
+  //   localStorage.setItem('userData', JSON.stringify(userData));
+  //   login(userData);
+  //   setLoggedIn(true);
+  // };
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -20,6 +28,7 @@ const LoginForm = () => {
     localStorage.setItem('userData', JSON.stringify(userData));
     login(userData);
     setLoggedIn(true);
+    onLogin(); 
   };
 
   const handleLogout = () => {

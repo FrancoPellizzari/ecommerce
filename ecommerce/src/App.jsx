@@ -47,6 +47,11 @@ const App = () => {
     setCurrentView('login');
   };
 
+  const handleLogin = () => {
+    
+    console.log("Usuario autenticado con éxito.");
+  };
+
   return (
     <BrowserRouter>
     <ThemeProvider>
@@ -72,12 +77,12 @@ const App = () => {
                       }
                     />
                     <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
-                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
                     <Route
                     path="/product/:id"
                     element={
                       <ProductDetails
-                        products={filteredProducts} // Podrías pasar todos los productos o ajustar según tu lógica
+                        products={filteredProducts}
                         addToCart={addToCart}
                       />
                     }

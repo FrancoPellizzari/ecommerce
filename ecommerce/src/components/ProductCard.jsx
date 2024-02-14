@@ -4,33 +4,63 @@ import PropTypes from 'prop-types';
 import { ThemeContext } from '../context/ThemeContext';
 import { CartContext } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const ProductCard = ({ product }) => {
   const { id, title, price, description, category, image, rating } = product;
 
   const {theme, toggleTheme } = useContext(ThemeContext);
+  const { isAuthenticated } = useAuth();
   const { addToCart } = useContext(CartContext);
 
+  // const handleAddToCart = () => {
+  //   addToCart(product); 
+  // };
   const handleAddToCart = () => {
-    addToCart(product); 
+    if (isAuthenticated) {
+      addToCart(product);
+    } else {
+      // Puedes redirigir a la página de inicio de sesión o mostrar un mensaje, según tus necesidades.
+      console.log("Usuario no autenticado. Redirigiendo a la página de inicio de sesión.");
+    }
   };
 
+  // return (
+  //   <nav className={`navbar ${theme === 'dark' ? 'dark-card' : 'light-card'}`}>
+  //   <div className="product-card">
+  //     <img src={image} alt={title} className="product-image" />
+  //     <div className="product-details">
+  //       <h3 className="product-title">{title}</h3>
+  //       <p className="product-description">{description}</p>
+  //       <p className="product-price">${price}</p>
+  //       <p className="product-category">{category}</p>
+  //       <div className="product-rating">
+  //         <p>Rating: {rating.rate} ({rating.count} reviews)</p>
+  //       </div>
+  //       <Link to={`/product/${product.id}`}>Ver Detalles</Link>
+  //       <button onClick={handleAddToCart}>Agregar al Carrito</button>
+  //     </div>
+  //   </div>
+  //   </nav>
+  // );
   return (
     <nav className={`navbar ${theme === 'dark' ? 'dark-card' : 'light-card'}`}>
-    <div className="product-card">
-      <img src={image} alt={title} className="product-image" />
-      <div className="product-details">
-        <h3 className="product-title">{title}</h3>
-        <p className="product-description">{description}</p>
-        <p className="product-price">${price}</p>
-        <p className="product-category">{category}</p>
-        <div className="product-rating">
-          <p>Rating: {rating.rate} ({rating.count} reviews)</p>
+      <div className="product-card">
+        <img src={image} alt={title} className="product-image" />
+        <div className="product-details">
+          <h3 className="product-title">{title}</h3>
+          <p className="product-description">{description}</p>
+          <p className="product-price">${price}</p>
+          <p className="product-category">{category}</p>
+          <div className="product-rating">
+            <p>Rating: {rating.rate} ({rating.count} reviews)</p>
+          </div>
+          <Link to={`/product/${product.id}`}>Ver Detalles</Link>
+          {isAuthenticated && (
+            <button onClick={handleAddToCart}>Agregar al Carrito</button>
+          )}
         </div>
-        <Link to={`/product/${product.id}`}>Ver Detalles</Link>
-        <button onClick={handleAddToCart}>Agregar al Carrito</button>
       </div>
-    </div>
     </nav>
   );
 }

@@ -39,7 +39,7 @@ return (
     </form>
     <ul className="nav-links">
       <li><NavLink to="/">Inicio</NavLink></li>
-      <li><NavLink to="/productos">Productos</NavLink></li>
+      <li><NavLink to="/login">Login</NavLink></li>
       <li><NavLink to="/cart">Carrito</NavLink></li>
       
       <button onClick={toggleTheme}>Cambiar Tema</button>
