@@ -3,6 +3,7 @@ import { CartContext } from '../context/CartContext';
 import './Cart.css'; 
 
 const Carrito = () => {
+  const { clearCart } = useContext(CartContext);
   const { cart } = useContext(CartContext);
 
   if (cart.length === 0) {
@@ -29,6 +30,18 @@ const Carrito = () => {
     }
   });
 
+   
+
+  const handleCheckout = () => {
+    alert('Se redirigirá a la pasarela de pago');
+    clearCart();
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+  };
+
+
   return (
     <div>
       <h2>Carrito de Compras</h2>
@@ -46,6 +59,8 @@ const Carrito = () => {
           </li>
         ))}
       </ul>
+      <button onClick={handleCheckout}>Finalizar Compra</button>
+      <button onClick={handleClearCart}>Eliminar Todos</button>
     </div>
   );
 };
