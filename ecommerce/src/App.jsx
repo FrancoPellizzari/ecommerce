@@ -12,6 +12,8 @@ import Banner from './components/Banner';
 import Layout from './views/layout';
 import ProductDetails from './components/ProductDetails';
 import ProtectedRoute from './components/ProtectedRoutes'; 
+import NotFound from './views/NotFound';
+
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,6 +90,7 @@ const App = () => {
                       />
                     }
                   />
+                   <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
               </div>
