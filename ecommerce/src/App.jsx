@@ -11,6 +11,7 @@ import ProductSection from './components/ProductSection';
 import Banner from './components/Banner';
 import Layout from './views/layout';
 import ProductDetails from './components/ProductDetails';
+import ProtectedRoute from './components/ProtectedRoutes'; 
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -76,7 +77,7 @@ const App = () => {
                         )
                       }
                     />
-                    <Route path="/cart" element={<Carrito cartItems={cartItems} />} />
+                      <Route path="/cart" element={<ProtectedCart />} />
                     <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
                     <Route
                     path="/product/:id"
@@ -98,5 +99,11 @@ const App = () => {
     </BrowserRouter>
   );
 };
+
+const ProtectedCart = () => (
+  <ProtectedRoute redirectTo="/login">
+    <Carrito />
+  </ProtectedRoute>
+);
 
 export default App;

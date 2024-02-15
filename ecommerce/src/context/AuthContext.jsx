@@ -62,3 +62,4 @@ AuthProvider.propTypes = {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+

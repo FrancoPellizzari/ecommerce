@@ -2,16 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const LoginForm = ({onLogin}) => {
-  const { login, logout } = useAuth();
+  const { login, logout, isAutenthicated } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    setLoggedIn(!!localStorage.getItem('userData'));
-  }, []);
+   useEffect(() => {
+     setLoggedIn(!!localStorage.getItem('userData'));
+   }, []);
 
   // const handleLogin = (e) => {
   //   e.preventDefault();
@@ -21,14 +24,19 @@ const LoginForm = ({onLogin}) => {
   //   login(userData);
   //   setLoggedIn(true);
   // };
+
+
   const handleLogin = (e) => {
     e.preventDefault();
-
+  
     const userData = { name, email };
     localStorage.setItem('userData', JSON.stringify(userData));
     login(userData);
     setLoggedIn(true);
-    onLogin(); 
+    onLogin();
+  
+    const { from } = location.state || { from: { pathname: '/' } };
+    navigate(from.pathname);
   };
 
   const handleLogout = () => {
