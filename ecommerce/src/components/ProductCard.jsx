@@ -20,7 +20,7 @@ const ProductCard = ({ product }) => {
     if (isAuthenticated) {
       addToCart(product);
     } else {
-      // Puedes redirigir a la página de inicio de sesión o mostrar un mensaje, según tus necesidades.
+      
       console.log("Usuario no autenticado. Redirigiendo a la página de inicio de sesión.");
     }
   };
