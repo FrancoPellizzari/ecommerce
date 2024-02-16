@@ -28,7 +28,7 @@ const LoginForm = ({onLogin}) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-  
+    
     const userData = { name, email };
     localStorage.setItem('userData', JSON.stringify(userData));
     login(userData);
@@ -36,8 +36,12 @@ const LoginForm = ({onLogin}) => {
     onLogin();
   
     const { from } = location.state || { from: { pathname: '/' } };
-    navigate(from.pathname);
+  
+    // Actualiza el estado 'from' en 'location.state' para redirigir correctamente después de iniciar sesión
+    navigate(from.from || '/cart');
   };
+  
+  
 
   const handleLogout = () => {
     localStorage.removeItem('userData');

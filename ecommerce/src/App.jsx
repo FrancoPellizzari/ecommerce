@@ -79,7 +79,14 @@ const App = () => {
                         )
                       }
                     />
-                      <Route path="/cart" element={<ProtectedCart />} />
+                      <Route
+                        path="/cart"
+                        element={
+                          <ProtectedCart>
+                            <Carrito />
+                          </ProtectedCart>
+                        }
+                      />
                     <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
                     <Route
                     path="/product/:id"
@@ -104,7 +111,7 @@ const App = () => {
 };
 
 const ProtectedCart = () => (
-  <ProtectedRoute redirectTo="/login">
+  <ProtectedRoute redirectTo="/cart">
     <Carrito />
   </ProtectedRoute>
 );
