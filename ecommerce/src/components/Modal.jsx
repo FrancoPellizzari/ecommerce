@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Modal = ({ isOpen, onClose, onConfirm, title, content }) => {
-    console.log('Modal isOpen:', isOpen);
+   
     if (!isOpen) {
       return null;
     }

@@ -15,7 +15,7 @@ import ProtectedRoute from './components/ProtectedRoutes';
 import NotFound from './views/NotFound';
 import Modal from './components/Modal'; // Importa el componente Modal
 import useModal from './useModal';
-
+import useApi from './useApi';
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,6 +25,8 @@ const App = () => {
   const [products, setProducts] = useState(data); // data es tu lista completa de productos
   const [editedProduct, setEditedProduct] = useState({ id: null, title: '', price: 0 });
   const { isOpen, openModal, closeModal } = useModal();
+  const { data: loading, error, createData, updateData, deleteData } = useApi(); 
+
 
   useEffect(() => {
     // Simula cargar los productos desde un servidor JSON
