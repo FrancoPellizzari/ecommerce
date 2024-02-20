@@ -38,18 +38,32 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const isAuthenticated = !!user; // Actualiza isAuthenticated en función del estado del usuario
+  const [userRole, setUserRole] = useState(null); 
+  const isAuthenticated = !!user; 
 
   const login = (userData) => {
     setUser(userData);
+  
+    let role = null;
+  
+    if (userData.email && userData.email.toLowerCase().includes('@admin')) {
+      role = 'admin';
+    }
+  
+    setUserRole(role);
+  
+    localStorage.setItem('userData', JSON.stringify({ ...userData, role }));
   };
 
   const logout = () => {
     setUser(null);
+    setUserRole(null); 
+    localStorage.removeItem('userData');
+  
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, userRole, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

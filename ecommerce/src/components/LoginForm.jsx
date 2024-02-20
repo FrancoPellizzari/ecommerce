@@ -26,19 +26,29 @@ const LoginForm = ({onLogin}) => {
   // };
 
 
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+    
+  //   const userData = { name, email };
+  //   localStorage.setItem('userData', JSON.stringify(userData));
+  //   login(userData);
+  //   setLoggedIn(true);
+  //   onLogin();
+  
+  //   const { from } = location.state || { from: { pathname: '/' } };
+  
+    
+  //   navigate(from.from || '/cart');
+  // };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    
     const userData = { name, email };
-    localStorage.setItem('userData', JSON.stringify(userData));
+    
     login(userData);
-    setLoggedIn(true);
     onLogin();
-  
     const { from } = location.state || { from: { pathname: '/' } };
-  
-    // Actualiza el estado 'from' en 'location.state' para redirigir correctamente después de iniciar sesión
-    navigate(from.from || '/cart');
+    navigate(from.pathname || '/cart');
   };
   
   
