@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Carrito from './components/Cart';
@@ -13,6 +13,8 @@ import Layout from './views/layout';
 import ProductDetails from './components/ProductDetails';
 import ProtectedRoute from './components/ProtectedRoutes'; 
 import NotFound from './views/NotFound';
+import Modal from './components/Modal'; // Importa el componente Modal
+import useModal from './useModal';
 
 
 const App = () => {
@@ -21,19 +23,49 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [currentView, setCurrentView] = useState('products');
   const [products, setProducts] = useState(data); // data es tu lista completa de productos
-  const [editingProduct, setEditingProduct] = useState(null);
+  const [editedProduct, setEditedProduct] = useState({ id: null, title: '', price: 0 });
+  const { isOpen, openModal, closeModal } = useModal();
 
-  
-  const handleEdit = (productId) => {
-    const productToEdit = products.find((product) => product.id === productId);
-    setEditingProduct(productToEdit);
+  useEffect(() => {
+    // Simula cargar los productos desde un servidor JSON
+    setProducts(data);
+    setFilteredProducts(data);
+  }, []);
+
+  const handleEdit = (product) => {
+    console.log('Editing product:', product);
+    setEditedProduct(product);
+    openModal();
   };
 
-  const handleDelete = (productId) => {
-    // Lógica para eliminar el producto
-    const updatedProducts = products.filter((product) => product.id !== productId);
+  const handleSave = () => {
+    if (editedProduct !== null) {
+      // Editar producto existente
+      const updatedProducts = products.map((product) =>
+        product.id === editedProduct.id ? editedProduct : product
+      );
+      setProducts(updatedProducts);
+      console.log('Saved product:', editedProduct);
+      closeModal();
+    }
+  };
+
+  const handleDelete = (id) => {
+    // Eliminar producto
+    const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
+    closeModal();
   };
+
+  const handleInputChange = (e) => {
+    // Manejar cambios en los campos del producto editado
+    const { name, value } = e.target;
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
 
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -124,6 +156,25 @@ const App = () => {
           </CartProvider>
         </ThemeProvider>
       </Layout>
+      <Modal
+  isOpen={isOpen}
+  onClose={closeModal}
+  onConfirm={handleSave}
+  title="Editar Producto"
+  content={
+    <>
+      <label>
+        Título:
+        <input
+          type="text"
+          name="title"
+          value={editedProduct?.title || ''}
+          onChange={handleInputChange}
+        />
+      </label>
+    </>
+  }
+/>
       </ThemeProvider>
     </BrowserRouter>
   );
