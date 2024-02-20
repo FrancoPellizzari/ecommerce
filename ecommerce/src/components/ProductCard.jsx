@@ -6,11 +6,11 @@ import { CartContext } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onEdit, onDelete, isAuthenticated, userRole }) => {
   const { id, title, price, description, category, image, rating } = product;
 
   const {theme, toggleTheme } = useContext(ThemeContext);
-  const { isAuthenticated } = useAuth();
+  //const { isAuthenticated } = useAuth();
   const { addToCart } = useContext(CartContext);
 
   // const handleAddToCart = () => {
@@ -59,6 +59,13 @@ const ProductCard = ({ product }) => {
           {isAuthenticated && (
             <button onClick={handleAddToCart}>Agregar al Carrito</button>
           )}
+          {isAuthenticated && userRole === 'admin' && (
+          <>
+            <button onClick={() => onEdit(product.id)}>Editar</button>
+            <button onClick={() => onDelete(product.id)}>Eliminar</button>
+          </>
+        )}
+          
         </div>
       </div>
     </nav>
@@ -66,18 +73,27 @@ const ProductCard = ({ product }) => {
 }
 
 ProductCard.propTypes = {
-    product: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      description: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      rating: PropTypes.shape({
-        rate: PropTypes.number.isRequired,
-        count: PropTypes.number.isRequired,
-      }).isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    rating: PropTypes.shape({
+      rate: PropTypes.number.isRequired,
+      count: PropTypes.number.isRequired,
     }).isRequired,
-  }
+  }).isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  
+};
+
+ProductCard.defaultProps = {
+  isAuthenticated: false, // Agrega esta línea con el valor predeterminado que desees
+  userRole: PropTypes.string, // Agrega esta línea con el valor predeterminado que desees
+};
 
 export default ProductCard;

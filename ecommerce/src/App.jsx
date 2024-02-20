@@ -20,6 +20,20 @@ const App = () => {
   const [filteredProducts, setFilteredProducts] = useState(data);
   const [cartItems, setCartItems] = useState([]);
   const [currentView, setCurrentView] = useState('products');
+  const [products, setProducts] = useState(data); // data es tu lista completa de productos
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  
+  const handleEdit = (productId) => {
+    const productToEdit = products.find((product) => product.id === productId);
+    setEditingProduct(productToEdit);
+  };
+
+  const handleDelete = (productId) => {
+    // Lógica para eliminar el producto
+    const updatedProducts = products.filter((product) => product.id !== productId);
+    setProducts(updatedProducts);
+  };
 
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -75,7 +89,12 @@ const App = () => {
                       path="/"
                       element={
                         currentView === 'products' && (
-                          <ProductSection filteredProducts={filteredProducts} addToCart={addToCart} />
+                          <ProductSection
+                          filteredProducts={filteredProducts}
+                          addToCart={addToCart}
+                          onEdit={handleEdit}
+                          onDelete={handleDelete}
+                        />
                         )
                       }
                     />
