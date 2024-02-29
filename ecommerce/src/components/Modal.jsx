@@ -1,34 +1,64 @@
-// Modal.jsx
+import React, { useState } from 'react';
 
-import React from 'react';
-import PropTypes from 'prop-types';
+const Modal = ({ createProduct, closeModal }) => {
 
-const Modal = ({ isOpen, onClose, onConfirm, title, content }) => {
-   
-    if (!isOpen) {
-      return null;
-    }
+  const [newProduct, setNewProduct] = useState({
+     title: "", 
+     price: 0 ,
+     description: "",
+     category: "",
+     image: "",
+     ratig: {
+      rate: 0,
+      count: 0,
+},
+});
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct((prevProduct) => ({ 
+      ...prevProduct, [name]: value
+     }));
+  };
   
-    console.log('Modal rendering with content:', content);
-  
-    return (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>{title}</h2>
-            {content} {/* Renderizar el contenido directamente sin envolverlo */}
-            <button onClick={onClose}>Cancelar</button>
-            <button onClick={onConfirm}>Confirmar</button>
-          </div>
-        </div>
-      );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createProduct(newProduct);
+   closeModal();
   };
 
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.node.isRequired,
+  const handleModalClick = (e) => {
+    if (e.target.classList.contains("modal-over-lay")){
+      closeModal();
+    }
+  }
+
+  return (
+
+  <div className="modal-overlay" onClick={handleModalClick}>
+  <div className="modal-content">
+    <h2>Añadir Nuevo Producto!!</h2>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Título:
+        <input type="text" name="title" value={newProduct.title} onChange={handleInputChange} />
+      </label>
+      <label>
+        Precio:
+        <input type="text" name="price" value={newProduct.price} onChange={handleInputChange} />
+      </label>
+      <label>
+        Descripcion:
+        <input type="text" name="description" value={newProduct.description} onChange={handleInputChange} />
+      </label>
+      <button type="submit">Añadir Producto</button>
+    </form>
+    <button onClick={closeModal}>Cancelar</button>
+  </div>
+</div>
+);
 };
+
 
 export default Modal;

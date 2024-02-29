@@ -13,61 +13,51 @@ import Layout from './views/layout';
 import ProductDetails from './components/ProductDetails';
 import ProtectedRoute from './components/ProtectedRoutes'; 
 import NotFound from './views/NotFound';
-import Modal from './components/Modal'; // Importa el componente Modal
-import useModal from './useModal';
-import useApi from './useApi';
+import Modal from './components/Modal'; 
+
+import { useProducts } from './useProducts';
+import { ProductContext } from './context/ProductContext';
+
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(data);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [currentView, setCurrentView] = useState('products');
-  const [products, setProducts] = useState(data); // data es tu lista completa de productos
-  const [editedProduct, setEditedProduct] = useState({ id: null, title: '', price: 0 });
-  const { isOpen, openModal, closeModal } = useModal();
-  const { data: loading, error, createData, updateData, deleteData } = useApi(); 
+  const [editedProduct, setEditedProduct] = useState(null);
+  const {loading, error, products,getProducts, updateProduct, deleteProduct } = useProducts();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+ 
 
   useEffect(() => {
-    // Simula cargar los productos desde un servidor JSON
-    setProducts(data);
-    setFilteredProducts(data);
-  }, []);
+    setFilteredProducts(products);
+  }, [products]);
 
   const handleEdit = (product) => {
-    console.log('Editing product:', product);
     setEditedProduct(product);
-    openModal();
+    setIsModalOpen(true);
   };
 
   const handleSave = () => {
     if (editedProduct !== null) {
-      // Editar producto existente
-      const updatedProducts = products.map((product) =>
-        product.id === editedProduct.id ? editedProduct : product
-      );
-      setProducts(updatedProducts);
-      console.log('Saved product:', editedProduct);
-      closeModal();
+      updateProduct(editedProduct.id, editedProduct);
+      setIsModalOpen(false);
     }
   };
 
   const handleDelete = (id) => {
-    // Eliminar producto
-    const updatedProducts = products.filter((product) => product.id !== id);
-    setProducts(updatedProducts);
-    closeModal();
+    deleteProduct(id);
+    setIsModalOpen(false);
   };
 
   const handleInputChange = (e) => {
-    // Manejar cambios en los campos del producto editado
     const { name, value } = e.target;
     setEditedProduct((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
   };
-
 
   const handleSearchChange = (e) => {
     const newSearchTerm = e.target.value;
@@ -76,7 +66,7 @@ const App = () => {
   };
 
   const filterProducts = (newSearchTerm) => {
-    const filtered = data.filter((product) =>
+    const filtered = products.filter((product) =>
       product.title.toLowerCase().includes(newSearchTerm.toLowerCase())
     );
     setFilteredProducts(filtered);
@@ -99,39 +89,38 @@ const App = () => {
   };
 
   const handleLogin = () => {
-    
     console.log("Usuario autenticado con éxito.");
   };
 
   return (
     <BrowserRouter>
-    <ThemeProvider>
-      <Layout
-        filterProducts={filterProducts}
-        switchToCartView={switchToCartView}
-        switchToLoginView={switchToLoginView}
-      >
-        <ThemeProvider>
+      <ThemeProvider>
+        <ProductContext.Provider value={{ products, loading, error, getProducts, updateProduct, deleteProduct }}>
           <CartProvider>
             <AuthProvider>
-              <div>
-                
-                <Banner />
-                <div className="product-list">
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={
-                        currentView === 'products' && (
-                          <ProductSection
-                          filteredProducts={filteredProducts}
-                          addToCart={addToCart}
-                          onEdit={handleEdit}
-                          onDelete={handleDelete}
-                        />
-                        )
-                      }
-                    />
+              <Layout
+                filterProducts={filterProducts}
+                switchToCartView={switchToCartView}
+                switchToLoginView={switchToLoginView}
+              >
+                <div>
+                  {/* <Navbar /> */}
+                  <Banner />
+                  <div className="product-list">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          currentView === 'products' && (
+                            <ProductSection
+                              filteredProducts={filteredProducts}
+                              addToCart={addToCart}
+                              onEdit={handleEdit}
+                              onDelete={handleDelete}
+                            />
+                          )
+                        }
+                      />
                       <Route
                         path="/cart"
                         element={
@@ -140,43 +129,43 @@ const App = () => {
                           </ProtectedCart>
                         }
                       />
-                    <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
-                    <Route
-                    path="/product/:id"
-                    element={
-                      <ProductDetails
-                        products={filteredProducts}
-                        addToCart={addToCart}
+                      <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+                      <Route
+                        path="/product/:id"
+                        element={
+                          <ProductDetails
+                            products={filteredProducts}
+                            addToCart={addToCart}
+                          />
+                        }
                       />
-                    }
-                  />
-                   <Route path="*" element={<NotFound />} />
-                  </Routes>
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </div>
                 </div>
-              </div>
+              </Layout>
+              <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)} 
+                onConfirm={handleSave}
+                title="Editar Producto"
+                content={
+                  <>
+                    <label>
+                      Título:
+                      <input
+                        type="text"
+                        name="title"
+                        value={editedProduct?.title || ''}
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                  </>
+                }
+              />
             </AuthProvider>
           </CartProvider>
-        </ThemeProvider>
-      </Layout>
-      <Modal
-  isOpen={isOpen}
-  onClose={closeModal}
-  onConfirm={handleSave}
-  title="Editar Producto"
-  content={
-    <>
-      <label>
-        Título:
-        <input
-          type="text"
-          name="title"
-          value={editedProduct?.title || ''}
-          onChange={handleInputChange}
-        />
-      </label>
-    </>
-  }
-/>
+        </ProductContext.Provider>
       </ThemeProvider>
     </BrowserRouter>
   );

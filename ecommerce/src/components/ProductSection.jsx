@@ -1,62 +1,63 @@
-// import React from 'react';
-// import ProductCard from './ProductCard';
-// import PropTypes from 'prop-types';
-
-// const ProductSection = ({ filteredProducts, addToCart }) => (
-  
-//   <>
-//     {filteredProducts.map((product) => (
-//       <ProductCard key={product.id} product={product} addToCart={addToCart} />
-//     ))}
-//   </>
-// );
-
-// ProductSection.propTypes = {
-//     filteredProducts: PropTypes.array.isRequired,
-//     addToCart: PropTypes.func.isRequired,
-//   };
-  
-
-// export default ProductSection;
-import React from 'react';
-import ProductCard from './ProductCard';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import Modal from './Modal';
+import { useProducts } from '../useProducts';
+import ProductCard from '../components/ProductCard';
 
-const ProductSection = ({ filteredProducts, addToCart, onEdit, onDelete }) => {
+const ProductSection = ({ filteredProducts, addToCart }) => {
   const { isAuthenticated, userRole } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const { products, loading, error, createProduct} = useProducts();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  const handleAddProduct = () => {
+    openModal();
+  };
 
   return (
     <>
-      {filteredProducts.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          addToCart={addToCart}
-          onEdit={onEdit}  
-          onDelete={onDelete}
-          isAuthenticated={isAuthenticated}
-          userRole={userRole}
-         
+      {isModalOpen && (
+        <Modal
+          closeModal={closeModal}
+          createProduct={(newProduct) => {
+            createProduct(newProduct);
+            closeModal();
+          }}
         />
-      ))}
+      )}
+  
+      <div className="products-section">
+        {filteredProducts.length ? (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={`${product.id}-${product.updatedAt}`}
+              product={product}
+              addToCart={addToCart}
+            />
+          ))
+        ) : (
+          !error && <p>No hay productos que coincidan con tu búsqueda</p>
+        )}
+      </div>
+  
+      {isAuthenticated && (
+        <div className="add-product-btn-container">
+          <button className="add-product-btn" onClick={handleAddProduct}>
+            Agregar Nuevo Producto
+          </button>
+        </div>
+      )}
     </>
   );
-};
-ProductSection.propTypes = {
-  filteredProducts: PropTypes.array.isRequired,
-  addToCart: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,   
-  onDelete: PropTypes.func.isRequired, 
-
-};
-
-const handleEdit = (productId) => {
-  console.log(`Editar producto con ID: ${productId}`);
-};
-
-const handleDelete = (productId) => {
-  console.log(`Eliminar producto con ID: ${productId}`);
 };
 
 export default ProductSection;
